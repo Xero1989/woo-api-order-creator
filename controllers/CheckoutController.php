@@ -32,26 +32,30 @@ class XUP_CheckoutController
             array("apartmentOrOffice", "Apartment Or Office"),
             array("floor", "Floor"),
             array("latlong", "Latitud, Longitud"),
-            array("scheduledStartTime", "Scheduled Start Time", "fdate"),
+            array("scheduledStartTime", "Scheduled Start Time", "fdate","required"),
 
 
         );
 
         for ($i = 0; $i < count($data); $i++) {
             $key = $data[$i][0];
-            $label = $data[$i][1];
-
+            $label = $data[$i][1];            
 
             if (!isset($data[$i][2]))
                 $id = "";
             else  $id = $data[$i][2];
+
+            $required = false;
+            if (isset($data[$i][3]))
+                $required = true;            
 
             $fields['billing']['billing_' . $key] = [
                 'type' => 'text',
                 'label' => $label,
                 'placeholder' => $label,
                 'priority' => ($i + 150),
-                'id' => $id
+                'id' => $id,
+                'required' => $required
             ];
         }
 
@@ -71,6 +75,8 @@ class XUP_CheckoutController
             "clientCode" => "Test@api"
         );
 
+        OC_Useful::log("step 1");
+
         $response = wp_remote_request(
             $url,
             array(
@@ -79,6 +85,9 @@ class XUP_CheckoutController
                 'method'    => 'POST'
             )
         );
+
+        OC_Useful::log("step 2");
+        OC_Useful::log($response);
 
         $response = OC_Useful::proccess_remote_request($response);
 
@@ -116,7 +125,11 @@ class XUP_CheckoutController
         $url = "http://staging.quickdeliveryco.com/api/v1/partner/create-order";
 
         $scheduledStartTime = $_POST["billing_scheduledStartTime"];
-       
+        if($scheduledStartTime == ""){
+     //       wc_add_notice(__('<b>Scheduled Start Time:</b> This field is required...'), 'error');
+            //OC_Useful::log("ERROR creting order");
+            return false;
+        }
 
         $temp = explode(" ", $scheduledStartTime);
         $date = $temp[0];

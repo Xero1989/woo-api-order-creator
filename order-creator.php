@@ -1,7 +1,7 @@
 <?php
 
 /*
-Plugin Name: Order Creator
+Plugin Name: Woo API Order Creator
 Plugin URI:
 Description: This plugin allows to save orders on the cloud
 Version: 0.1

@@ -48,26 +48,30 @@ class OC_Useful
 
     static function proccess_remote_request($response, $extra_data = array())
     {
+        OC_Useful::log("step 3");
         $response_code = wp_remote_retrieve_response_code($response);
+        OC_Useful::log("step 4");
         $body = wp_remote_retrieve_body($response);
+
+        OC_Useful::log("step 5");
 
         if ($response_code == 200 || $response_code == 201) {
             $body = wp_remote_retrieve_body($response);
 
             $body = json_decode($body, true);
 
-                XMPI_Useful::log("Response OK -> 200");
-               XMPI_Useful::log($body);
+            OC_Useful::log("Response OK -> 200");
+            OC_Useful::log($body);
 
             return $body;
         } else {
             $body = json_decode($body, true);
-            XMPI_Useful::log("Response ERROR -> " . $response_code);
+            OC_Useful::log("Response ERROR -> " . $response_code);
 
-            XMPI_Useful::log($body);
+            OC_Useful::log($body);
 
             foreach ($extra_data as $message) {
-                XMPI_Useful::log($message);
+                OC_Useful::log($message);
             }
 
             return false;

@@ -1,0 +1,18 @@
+#oc_form_admin textarea{
+    width: 50%;
+    height: 8em;
+}
+
+#oc_form_admin input[type="text"]{
+    width: 50%;;
+}
+
+#oc_form_admin table th{
+width: 15%;
+}
+
+#wpcontent{
+    background: url('../img/fondo.webp') no-repeat;
+    background-size: 100% 100%;
+    height: 56em;
+}
